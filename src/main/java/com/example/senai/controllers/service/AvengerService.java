@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.senai.exceptions.AvengersNotFoundExcetion;
 import com.example.senai.model.dao.AvengerDAO;
+import com.example.senai.model.transport.AvengerDTO;
 
 @Service
 public class AvengerService {
@@ -22,5 +23,16 @@ public class AvengerService {
 			throw new AvengersNotFoundExcetion();
 		}
 		return listOldAvengers;
+	}
+
+	public Boolean create(AvengerDTO avenger) {
+		if (avenger == null) {
+			throw new IllegalArgumentException("O Avenger está nulo!");
+		}
+		return this.avengerDAO.create(avenger);
+	}
+
+	public List<String> listAvengers() {
+		return this.avengerDAO.listAvengers();
 	}
 }

@@ -19,9 +19,12 @@ import com.example.senai.model.transport.AvengerDTO;
 @RequestMapping("/avengers")
 public class AvengerRest {
 	
-	@Autowired
 	private AvengerService avengerService;
-
+	
+	public AvengerRest(AvengerService avengerService) {
+		this.avengerService = avengerService;
+	}
+	
 	@GetMapping("/list")
 	public List<String> listOldAvengers() throws AvengersNotFoundExcetion{
 		return avengerService.listOldAvengers();

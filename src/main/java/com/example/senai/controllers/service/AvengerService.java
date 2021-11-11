@@ -12,8 +12,11 @@ import com.example.senai.model.transport.AvengerDTO;
 @Service
 public class AvengerService {
 	
-	@Autowired
 	private AvengerDAO avengerDAO;
+	
+	public AvengerService(AvengerDAO avengerDAO) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public List<String> listOldAvengers() throws AvengersNotFoundExcetion{
 		List<String> listOldAvengers = this.avengerDAO.listOldAvengers();

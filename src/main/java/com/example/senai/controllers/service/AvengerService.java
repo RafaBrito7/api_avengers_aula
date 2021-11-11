@@ -15,7 +15,7 @@ public class AvengerService {
 	private AvengerDAO avengerDAO;
 	
 	public AvengerService(AvengerDAO avengerDAO) {
-		// TODO Auto-generated constructor stub
+		this.avengerDAO = avengerDAO;
 	}
 
 	public List<String> listOldAvengers() throws AvengersNotFoundExcetion{

@@ -52,12 +52,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
-		 String email = ((UserSpringSecurity) authResult.getPrincipal()).getUsername();
-		 String generateToken = jwtUtil.generateToken(email);
-		 
-		 response.addHeader("Authorization", "Bearer " + generateToken);
+		String email = ((UserSpringSecurity) authResult.getPrincipal()).getUsername();
+		String generateToken = jwtUtil.generateToken(email);
+
+		response.addHeader("Authorization", "Bearer " + generateToken);
 	}
+
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
+
 		@Override
 		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 				AuthenticationException exception) throws IOException, ServletException {
@@ -67,16 +69,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 
 		private String json() {
-			long date = new Date().getTime();
-			JsonObject j = new JsonObject();
 			
-			j.addProperty("timestamp", date);
-			j.addProperty("status", "401");
-			j.addProperty("error", "Not authorized");
-			j.addProperty("message", "Login or password invalid");
-			j.addProperty("path", "/login");
-			return j.toString();
+			long date = new Date().getTime();
+			return "{\"timestamp\": " + date + ", " 
+					+ "\"status\": 401, " 
+					+ "\"error\": \"Não autorizado\", "
+					+ "\"message\": \"Email ou senha inválidos\", " 
+					+ "\"path\": \"/login\"}";
 		}
-
 	}
+
 }

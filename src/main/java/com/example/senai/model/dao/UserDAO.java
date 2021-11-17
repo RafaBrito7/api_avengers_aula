@@ -2,6 +2,7 @@ package com.example.senai.model.dao;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +15,8 @@ public class UserDAO {
 	
 	public UserDAO() {
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
-		User gustavo = new User("gustavo.enndi.m@gmail.com", pe.encode("123456"));
+		User gustavo = new User("gustavo.enndi.m@gmail.com", pe.encode("123456")
+				,Set.of("ROLE_USER"));
 		db.put(gustavo.getEmail(), gustavo);
 	}
 	

@@ -19,8 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.example.senai.model.dao.UserSpringSecurity;
 import com.example.senai.model.transport.CredentialsDTO;
+import com.example.senai.model.transport.JwtDTO;
 import com.example.senai.util.JWTUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -53,9 +55,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		String email = ((UserSpringSecurity) authResult.getPrincipal()).getUsername();
-		String generateToken = jwtUtil.generateToken(email);
+		JwtDTO generateToken = jwtUtil.generateToken(email);
 
-		response.addHeader("Authorization", "Bearer " + generateToken);
+		response.addHeader("Authorization", generateToken.getFullToken());
+		response.getWriter().append(new Gson().toJson(generateToken));
 	}
 
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {

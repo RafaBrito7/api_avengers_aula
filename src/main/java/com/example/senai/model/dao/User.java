@@ -1,6 +1,8 @@
 package com.example.senai.model.dao;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class User {
 
@@ -8,13 +10,27 @@ public class User {
 
 	private String password;
 
+	private Set<String> roles = new HashSet<>();
+
 	public User(String email) {
 		this.email = email;
 	}
-
 	public User(String email, String password) {
-		this.email = email;
+		this(email);
 		this.password = password;
+	}
+
+	public User(String email, String password, Set<String> roles) {
+		this(email, password);
+		this.roles = roles;
+	}
+
+	public Set<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<String> roles) {
+		this.roles = roles;
 	}
 
 	public String getEmail() {

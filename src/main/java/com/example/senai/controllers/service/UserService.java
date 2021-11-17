@@ -2,6 +2,8 @@ package com.example.senai.controllers.service;
 
 import java.util.ArrayList;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,12 +26,21 @@ public class UserService implements UserDetailsService {
 		return userDAO.getUser(email);
 	}
 
+	public static UserSpringSecurity authenticated() {
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			return new UserSpringSecurity((String) authentication.getPrincipal(), null, new ArrayList<>());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = getUser(username);
 		if (user == null) {
 			throw new UsernameNotFoundException(username);
 		}
-		return new UserSpringSecurity(user.getEmail(), user.getPassword(), new ArrayList<>());
+		return new UserSpringSecurity(user.getEmail(), user.getPassword(), user.getRoles());
 	}
 }

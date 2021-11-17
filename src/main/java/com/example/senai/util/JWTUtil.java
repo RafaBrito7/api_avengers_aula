@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.example.senai.model.transport.JwtDTO;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -21,11 +23,13 @@ public class JWTUtil {
 		this.expiration = expiration;
 	}
 
-	public String generateToken(String email) {
-		return Jwts.builder()
-				.setSubject(email)
-				.setExpiration(new Date(System.currentTimeMillis() + expiration))
-				.signWith(SignatureAlgorithm.HS512, secret).compact();
+	public JwtDTO generateToken(String email) {
+		Date tokenExpiration = new Date(System.currentTimeMillis() + expiration);
+		String token = Jwts.builder()
+		.setSubject(email)
+		.setExpiration(tokenExpiration)
+		.signWith(SignatureAlgorithm.HS512, secret).compact();
+		return new JwtDTO("Bearer", token, tokenExpiration.getTime());
 	}
 
 	public boolean validToken(String token) {

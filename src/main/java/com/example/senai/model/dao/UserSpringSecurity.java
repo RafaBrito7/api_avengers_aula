@@ -1,8 +1,11 @@
 package com.example.senai.model.dao;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserSpringSecurity implements UserDetails {
@@ -18,7 +21,14 @@ public class UserSpringSecurity implements UserDetails {
 		this.password = password;
 		this.authorities = authorities;
 	}
-
+	
+	public UserSpringSecurity(String email, String password, Set<String> authorities) {
+		this.email = email;
+		this.password = password;
+		this.authorities = authorities.stream()
+				.map(role -> new SimpleGrantedAuthority(role))
+				.collect(Collectors.toSet());
+	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return authorities;

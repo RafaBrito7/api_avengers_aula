@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +20,14 @@ import com.example.senai.model.transport.AvengerDTO;
 @RequestMapping("/avengers")
 public class AvengerRest {
 	
+	
 	private AvengerService avengerService;
 	
 	public AvengerRest(AvengerService avengerService) {
 		this.avengerService = avengerService;
 	}
 	
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	@GetMapping("/list")
 	public List<String> listOldAvengers() throws AvengersNotFoundExcetion{
 		return avengerService.listOldAvengers();

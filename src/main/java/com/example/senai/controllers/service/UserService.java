@@ -21,6 +21,10 @@ public class UserService implements UserDetailsService {
 	public UserService(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
+	
+	public void updateUser(User user) {
+		userDAO.updateUser(user);
+	}
 
 	public User getUser(String email) {
 		return userDAO.getUser(email);
@@ -29,7 +33,8 @@ public class UserService implements UserDetailsService {
 	public static UserSpringSecurity authenticated() {
 		try {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			return new UserSpringSecurity((String) authentication.getPrincipal(), null, new ArrayList<>());
+			return new UserSpringSecurity((String) authentication.getPrincipal(), null,
+					authentication.getAuthorities());
 		} catch (Exception e) {
 			return null;
 		}

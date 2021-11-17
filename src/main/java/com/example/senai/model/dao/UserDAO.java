@@ -15,9 +15,13 @@ public class UserDAO {
 	
 	public UserDAO() {
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
-		User gustavo = new User("gustavo.enndi.m@gmail.com", pe.encode("123456")
-				,Set.of("ROLE_USER"));
+		User gustavo = new User("rhbarauna@gmail.com", pe.encode("123456")
+				,Set.of("ROLE_USER", "ROLE_ADMIN"));
 		db.put(gustavo.getEmail(), gustavo);
+	}
+	
+	public void updateUser(User user) {
+		db.replace(user.getEmail(), user);
 	}
 	
 	public User getUser(String email) {

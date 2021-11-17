@@ -5,6 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
+/**
+ * @author gustavo
+ *
+ *	https://www.google.com/settings/security/lesssecureapps
+ * 	https://accounts.google.com/b/0/DisplayUnlockCaptcha
+ *
+ *
+ */
 public class SmtpEmailService extends AbstractEmailService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);

@@ -1,6 +1,8 @@
 package com.example.senai.model.transport;
 
 public class AvengerDTO {
+	
+	private long id;
 
 	private String realName;
 
@@ -13,11 +15,12 @@ public class AvengerDTO {
 	public AvengerDTO() {
 	}
 
-	public AvengerDTO(String realName, String name, Integer age, String superPower) {
+	public AvengerDTO(String realName, String name, Integer age, String superPower, long id) {
 		this.realName = realName;
 		this.name = name;
 		this.age = age;
 		this.superPower = superPower;
+		this.id = id;
 	}
 
 	public String getRealName() {
@@ -50,6 +53,14 @@ public class AvengerDTO {
 
 	public void setSuperPower(String superPower) {
 		this.superPower = superPower;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	@Override

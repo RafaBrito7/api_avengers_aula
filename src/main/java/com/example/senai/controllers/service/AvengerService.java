@@ -1,6 +1,7 @@
 package com.example.senai.controllers.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,18 @@ public class AvengerService {
 	}
 
 	public List<String> listAvengers() {
-		return this.avengerDAO.listAvengers();
+		return this.avengerDAO.listAvengersNames();
+	}
+
+	public AvengerDTO getById(Long id) {
+		if (id == null) {
+			throw new IllegalArgumentException("O Id não pode ser Nulo!");
+		}
+		Optional<AvengerDTO> avenger = avengerDAO.findById(id);
+		
+		if (avenger.isPresent()) {
+			return avenger.get();
+		}
+		return null;
 	}
 }

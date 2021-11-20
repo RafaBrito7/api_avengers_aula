@@ -1,9 +1,9 @@
 package com.example.senai.controllers.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.senai.exceptions.AvengersNotFoundExcetion;
@@ -50,5 +50,19 @@ public class AvengerService {
 			return avenger.get();
 		}
 		return null;
+	}
+
+	public List<AvengerDTO> getAvengersByFilter(String name) {
+		if (name == null || name.isEmpty()) { 
+			throw new IllegalArgumentException("O nome não pode ser Vazio!");
+		}
+		
+		List<AvengerDTO> avengersFilted = new ArrayList<>();
+		avengersFilted = this.avengerDAO.getAvengersByFilter(name);
+		if (!avengersFilted.isEmpty()) {
+			return avengersFilted;
+		}
+		
+		return avengersFilted;
 	}
 }

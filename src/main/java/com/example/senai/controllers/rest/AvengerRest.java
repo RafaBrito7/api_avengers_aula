@@ -2,7 +2,6 @@ package com.example.senai.controllers.rest;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.senai.controllers.service.AvengerService;
@@ -53,5 +53,8 @@ public class AvengerRest {
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 	
-	
+	@GetMapping("/filter")
+	public List<AvengerDTO> getAvengersByFilter(@RequestParam("name") String name) throws AvengersNotFoundExcetion{
+		return avengerService.getAvengersByFilter(name);
+	}
 }

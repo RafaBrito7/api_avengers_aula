@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +19,9 @@ public class AvengerDAO {
 	//String realName, String name, Integer age, String superPower, long id
 	public List<AvengerDTO> avengers = new ArrayList<>(Arrays.asList(
 			new AvengerDTO("Steve Rogers", "Capitão América", 45, "Super Soldado", 1),
-			new AvengerDTO("Bruce Banner", "Hulk", 40, "Monstro Gamma", 2),
-			new AvengerDTO("Tony Stark", "Homem de Ferro", 42, "Rico", 3)));
+			new AvengerDTO("Steve Stranger", "Dr. Estranho", 35, "Mago Supremo", 2),
+			new AvengerDTO("Bruce Banner", "Hulk", 40, "Monstro Gamma", 3),
+			new AvengerDTO("Tony Stark", "Homem de Ferro", 42, "Rico", 4)));
 	
 	public static List<String> avengersNames = new ArrayList<>();
 	
@@ -42,9 +44,23 @@ public class AvengerDAO {
 	public List<AvengerDTO> listAvengers(){
 		return avengers;
 	}
-
+	
 	public Optional<AvengerDTO> findById(Long id) {
 		List<AvengerDTO> avengers = this.listAvengers();
 		return avengers.stream().filter(avenger -> avenger.getId() == id).findFirst();
+	}
+
+	public List<AvengerDTO> getAvengersByFilter(String name) {
+		List<AvengerDTO> avengers = this.listAvengers();
+		return avengers.stream().filter(avenger -> hasEquals(name, avenger.getRealName()))
+				.collect(Collectors.toList());
+	}
+	
+	private boolean hasEquals(String filter, String nameCompost) {
+		String[] split = nameCompost.split(" ");
+		 if (split[0].equalsIgnoreCase(filter)) {
+			return true;
+		}
+		 return false;
 	}
 }

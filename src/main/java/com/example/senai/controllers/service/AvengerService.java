@@ -1,13 +1,14 @@
 package com.example.senai.controllers.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.senai.dao.AvengerDAO;
 import com.example.senai.exceptions.AvengersNotFoundExcetion;
-import com.example.senai.model.dao.AvengerDAO;
 import com.example.senai.model.transport.AvengerDTO;
 
 @Service
@@ -29,18 +30,18 @@ public class AvengerService {
 		return listOldAvengers;
 	}
 
-	public Boolean create(AvengerDTO avenger) {
+	public AvengerDTO create(AvengerDTO avenger) throws SQLException {
 		if (avenger == null) {
 			throw new IllegalArgumentException("O Avenger está nulo!");
 		}
 		return this.avengerDAO.create(avenger);
 	}
 
-	public List<String> listAvengers() {
+	public List<String> listAvengers() throws SQLException {
 		return this.avengerDAO.listAvengersNames();
 	}
 
-	public AvengerDTO getById(Long id) {
+	public AvengerDTO getById(Long id) throws SQLException {
 		if (id == null) {
 			throw new IllegalArgumentException("O Id não pode ser Nulo!");
 		}
@@ -52,7 +53,7 @@ public class AvengerService {
 		return null;
 	}
 
-	public List<AvengerDTO> getAvengersByFilter(String name) {
+	public List<AvengerDTO> getAvengersByFilter(String name) throws SQLException {
 		if (name == null || name.isEmpty()) { 
 			throw new IllegalArgumentException("O nome não pode ser Vazio!");
 		}

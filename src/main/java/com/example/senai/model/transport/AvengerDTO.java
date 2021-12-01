@@ -1,26 +1,39 @@
 package com.example.senai.model.transport;
 
+import java.util.Date;
+import java.util.Objects;
+
 public class AvengerDTO {
-	
+
 	private long id;
 
 	private String realName;
 
 	private String name;
 
-	private Integer age;
+	private Date birthdayDate;
 
 	private String superPower;
+
+	private String status;
 
 	public AvengerDTO() {
 	}
 
-	public AvengerDTO(String realName, String name, Integer age, String superPower, long id) {
-		this.realName = realName;
+	public AvengerDTO(String name, String secretIndentity, Date birthdayDate, String hability, String status) {
+		this.realName = secretIndentity;
 		this.name = name;
-		this.age = age;
-		this.superPower = superPower;
-		this.id = id;
+		this.superPower = hability;
+		this.status = status;
+		this.birthdayDate = birthdayDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public String getRealName() {
@@ -39,12 +52,12 @@ public class AvengerDTO {
 		this.name = name;
 	}
 
-	public Integer getAge() {
-		return age;
+	public Date getBirthdayDate() {
+		return birthdayDate;
 	}
 
-	public void setAge(Integer age) {
-		this.age = age;
+	public void setBirthdayDate(Date birthdayDate) {
+		this.birthdayDate = birthdayDate;
 	}
 
 	public String getSuperPower() {
@@ -54,7 +67,7 @@ public class AvengerDTO {
 	public void setSuperPower(String superPower) {
 		this.superPower = superPower;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
@@ -64,9 +77,26 @@ public class AvengerDTO {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(realName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AvengerDTO other = (AvengerDTO) obj;
+		return Objects.equals(realName, other.realName);
+	}
+
+	@Override
 	public String toString() {
-		return "AvengerDTO [realName=" + realName + ", name=" + name + ", age=" + age + ", superPower=" + superPower
-				+ "]";
+		return "AvengerDTO [id=" + id + ", realName=" + realName + ", name=" + name + ", birthdayDate=" + birthdayDate
+				+ ", superPower=" + superPower + ", status=" + status + "]";
 	}
 
 }

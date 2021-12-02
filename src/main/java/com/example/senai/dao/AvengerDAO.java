@@ -10,35 +10,36 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
+import com.example.senai.config.JDBCConfig;
 import com.example.senai.model.transport.AvengerDTO;
 
-@Repository
 public class AvengerDAO {
+
+	Connection connection;
+
+	public AvengerDAO(Connection connection) {
+		this.connection = connection;
+	}
 
 	public List<String> listOldAvengers() {
 		return null;
 	}
 
 	public AvengerDTO create(AvengerDTO avenger) throws SQLException {
-		try (Connection connection = new ConnectionFactoryJDBC().getConnection()) {
+		try (PreparedStatement pStmt = connection.prepareStatement(
+				"INSERT INTO hero (name, secret_indentity, " + "birthday_date, hability, status) VALUES(?, ?, ?, ?, ?)",
+				Statement.RETURN_GENERATED_KEYS)) {
 
-			PreparedStatement pStmt = connection
-					.prepareStatement("INSERT INTO hero (name, secret_indentity, "
-							+ "birthday_date, hability, status) VALUES(?, ?, ?, ?, ?)",
-							Statement.RETURN_GENERATED_KEYS);
-			
 			pStmt.setString(1, avenger.getName());
 			pStmt.setString(2, avenger.getRealName());
 			pStmt.setDate(3, new java.sql.Date(avenger.getBirthdayDate().getTime()));
 			pStmt.setString(4, avenger.getSuperPower());
 			pStmt.setString(5, avenger.getStatus());
 			pStmt.execute();
-			
+
 			ResultSet resultSet = pStmt.getGeneratedKeys();
 			while (resultSet.next()) {
-				int id = resultSet.getInt(1);
+				Long id = resultSet.getLong(1);
 				avenger.setId(id);
 			}
 			return avenger;
@@ -47,9 +48,7 @@ public class AvengerDAO {
 	}
 
 	public List<String> listAvengersNames() throws SQLException {
-
-		try (Connection connection = new ConnectionFactoryJDBC().getConnection()) {
-			Statement stmt = connection.createStatement();
+		try (Statement stmt = connection.createStatement()) {
 			stmt.execute("SELECT name FROM hero");
 			ResultSet resultSet = stmt.getResultSet();
 			List<String> names = new ArrayList<>();
@@ -62,8 +61,7 @@ public class AvengerDAO {
 	}
 
 	public List<AvengerDTO> listAvengers() throws SQLException {
-		try (Connection connection = new ConnectionFactoryJDBC().getConnection()) {
-			Statement stmt = connection.createStatement();
+		try (Statement stmt = connection.createStatement()) {
 			stmt.execute("SELECT * FROM hero");
 			ResultSet resultSet = stmt.getResultSet();
 			List<AvengerDTO> avengers = new ArrayList<>();
@@ -76,8 +74,7 @@ public class AvengerDAO {
 	}
 
 	public Optional<AvengerDTO> findById(Long id) throws SQLException {
-		try (Connection connection = new ConnectionFactoryJDBC().getConnection()) {
-			PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM hero WHERE id=?");
+		try (PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM hero WHERE id=?")) {
 			pStmt.setLong(1, id);
 			pStmt.execute();
 			ResultSet resultSet = pStmt.getResultSet();
@@ -90,8 +87,8 @@ public class AvengerDAO {
 	}
 
 	public List<AvengerDTO> getAvengersByFilter(String name) throws SQLException {
-		try (Connection connection = new ConnectionFactoryJDBC().getConnection()) {
-			PreparedStatement pStmt = connection.prepareStatement("SELECT * FROM hero WHERE name LIKE ?");
+		try (PreparedStatement pStmt = 
+				connection.prepareStatement("SELECT * FROM hero WHERE name LIKE ?")) {
 			pStmt.setString(1, name + "%");
 			pStmt.execute();
 			ResultSet resultSet = pStmt.getResultSet();
@@ -104,7 +101,7 @@ public class AvengerDAO {
 	}
 
 	private AvengerDTO extractedAvenger(ResultSet resultSet) throws SQLException {
-		int id = resultSet.getInt("id");
+		Long id = resultSet.getLong("id");
 		String name = resultSet.getString("name");
 		String secretIndentity = resultSet.getString("secret_indentity");
 		Date birthdayDate = resultSet.getDate("birthday_date");

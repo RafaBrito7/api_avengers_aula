@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class AvengerDTO {
 
-	private long id;
+	private Long id;
 
 	private String realName;
 
@@ -17,6 +17,8 @@ public class AvengerDTO {
 
 	private String status;
 
+	private TeamDTO team;
+
 	public AvengerDTO() {
 	}
 
@@ -26,6 +28,14 @@ public class AvengerDTO {
 		this.superPower = hability;
 		this.status = status;
 		this.birthdayDate = birthdayDate;
+	}
+
+	public TeamDTO getTeam() {
+		return team;
+	}
+
+	public void setTeam(TeamDTO team) {
+		this.team = team;
 	}
 
 	public String getStatus() {
@@ -68,11 +78,11 @@ public class AvengerDTO {
 		this.superPower = superPower;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

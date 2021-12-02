@@ -18,14 +18,6 @@ public class JDBCConfig {
 	String url = "jdbc:postgresql://localhost:5432/shield";
 	String user = "gustavo";
 	String pass = "gustavo";
-	
-	public static void main(String[] args) throws SQLException {
-		JDBCConfig jdbcConfig = new JDBCConfig();
-		for (int i = 0; i < 30; i++) {
-			jdbcConfig.getConnection();
-			System.out.println(i);
-		}
-	}
 
 	public JDBCConfig() {
 		ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();

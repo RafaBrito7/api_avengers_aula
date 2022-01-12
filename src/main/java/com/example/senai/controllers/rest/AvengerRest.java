@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.senai.controllers.service.AvengerService;
 import com.example.senai.exceptions.AvengersNotFoundExcetion;
 import com.example.senai.model.transport.AvengerDTO;
+import com.example.senai.model.transport.AvengerNameProjection;
 
 @RestController
 @RequestMapping("/avengers")
@@ -35,7 +36,7 @@ public class AvengerRest {
 	}
 
 	@GetMapping("/list-all")
-	public List<String> listAvengers() throws AvengersNotFoundExcetion, SQLException {
+	public List<AvengerNameProjection> listAvengers() throws AvengersNotFoundExcetion, SQLException {
 		return avengerService.listAvengers();
 	}
 

@@ -10,9 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.senai.config.JDBCConfig;
 import com.example.senai.model.transport.AvengerDTO;
 
+/**
+ * User AvengerRepository
+ *
+ */
+@Deprecated
 public class AvengerDAO {
 
 	Connection connection;

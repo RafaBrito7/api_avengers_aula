@@ -1,12 +1,21 @@
-package com.example.senai.model.transport;
+package com.example.senai.model;
 
 import java.util.Date;
 import java.util.Objects;
 
-import com.example.senai.model.Avenger;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class AvengerDTO {
+import com.example.senai.model.transport.AvengerDTO;
+import com.example.senai.model.transport.TeamDTO;
 
+@Entity
+public class Avenger {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private String realName;
@@ -21,19 +30,18 @@ public class AvengerDTO {
 
 	private TeamDTO team;
 
-	public AvengerDTO() {
+	public Avenger() {
 	}
-
-	public AvengerDTO(String name, String secretIndentity, Date birthdayDate, String hability, String status) {
+	
+	public Avenger(AvengerDTO avengerDTO) {
+	}
+	
+	public Avenger(String name, String secretIndentity, Date birthdayDate, String hability, String status) {
 		this.realName = secretIndentity;
 		this.name = name;
 		this.superPower = hability;
 		this.status = status;
 		this.birthdayDate = birthdayDate;
-	}
-
-	public AvengerDTO(Avenger avenger) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TeamDTO getTeam() {
@@ -105,7 +113,7 @@ public class AvengerDTO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AvengerDTO other = (AvengerDTO) obj;
+		Avenger other = (Avenger) obj;
 		return Objects.equals(realName, other.realName);
 	}
 
@@ -114,5 +122,4 @@ public class AvengerDTO {
 		return "AvengerDTO [id=" + id + ", realName=" + realName + ", name=" + name + ", birthdayDate=" + birthdayDate
 				+ ", superPower=" + superPower + ", status=" + status + "]";
 	}
-
 }

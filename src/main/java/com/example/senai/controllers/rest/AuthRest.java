@@ -26,6 +26,10 @@ public class AuthRest {
 	
 	private AuthService authService;
 	
+	public AuthRest() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public AuthRest(JWTUtil jwtUtil, AuthService authService) {
 		this.jwtUtil = jwtUtil;
 		this.authService = authService;
